@@ -8,19 +8,21 @@ public class BallCollisionBehavior {
         }
         else if (map.isWallOnXAxis(ball.getPosition()))
         {
-            ball.setMovingDirection(newMovingDirectionYAxis(ball.getMovingDirection()));
+            System.out.println("Game over");
+            System.exit(0);
+            //ball.setMovingDirection(newMovingDirectionYAxis(ball.getMovingDirection()));
         }
         else if (map.isCorner(ball.getPosition()))
         {
             ball.setMovingDirection(newMovingDirectionCorner(ball.getMovingDirection()));
         }
 
-        else if (rightPaddle.isTouchingPaddle(ball.getPosition()))
+        else if (rightPaddle.isTouchingPaddle(ball.getPosition()))//change that there would ball instead of rightPaddle
         {
             ball.setMovingDirection(newMovingDirectionYAxis(ball.getMovingDirection()));
         }
 
-        else if (leftPaddle.isTouchingPaddle(ball.getPosition()))
+        else if (leftPaddle.isTouchingPaddle(ball.getPosition()))//change that there would ball instead of leftPaddle
         {
             ball.setMovingDirection(newMovingDirectionYAxis(ball.getMovingDirection()));
         }

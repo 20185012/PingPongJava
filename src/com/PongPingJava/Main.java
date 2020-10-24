@@ -8,16 +8,18 @@ public class Main {
 
         Ball ball = new Ball(middleOfMap,MovingDirection.UpLeft,map);
 
-        Paddle rightPaddle = new Paddle(new Position(map.getHeight()-14, 2),
-                                        new Position(map.getHeight()-2,2));//simplify
+        Paddle rightPaddle = new Paddle(new Position(map.getHeight()-2, 2),
+                                        new Position(map.getHeight()-6,2),map,"1","7");//simplify, reduce need of constants, GameMap can't go here
 
-        Paddle leftPaddle = new Paddle(new Position(map.getHeight()-14, map.getWidth()-3),
-                                       new Position(map.getHeight()-2,map.getWidth()-3));//simplify
+        Paddle leftPaddle = new Paddle(new Position(map.getHeight()-2, map.getWidth()-3),
+                                       new Position(map.getHeight()-6,map.getWidth()-3),map,"2","8");
 
 
         GameLevel gameLevel = new GameLevel(map, ball, rightPaddle, leftPaddle);
 
         GameRenderer renderer = new GameRenderer();
+
+        UserInput input = new UserInput();
 
         renderer.renderMap(gameLevel);
 
@@ -26,6 +28,14 @@ public class Main {
             ball.move(gameLevel);
             renderer.renderMap(gameLevel);
             Thread.sleep(300);
+
+            String key = input.getUserInput();
+
+            if (key.equals(rightPaddle.getControlDown()) || key.equals(rightPaddle.getControlUp()))
+                rightPaddle.move(input.makeMovingDirection("7","1",key));
+
+            else if (key.equals(leftPaddle.getControlDown()) || key.equals(leftPaddle.getControlUp()))
+                leftPaddle.move(input.makeMovingDirection("8","2", key));
         }
     }
 }
