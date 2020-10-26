@@ -8,11 +8,11 @@ public class Main {
 
         Ball ball = new Ball(middleOfMap,MovingDirection.UpLeft,map);
 
-        Paddle rightPaddle = new Paddle(new Position(map.getHeight()-2, 2),
-                                        new Position(map.getHeight()-6,2),map,"1","7");//simplify, reduce need of constants, GameMap can't go here
+        Paddle rightPaddle = new Paddle(new Position(map.getHeight()-2, 1),
+                                        new Position(map.getHeight()-6,1),map,"1","7");//simplify, reduce need of constants, GameMap can't go here
 
-        Paddle leftPaddle = new Paddle(new Position(map.getHeight()-2, map.getWidth()-3),
-                                       new Position(map.getHeight()-6,map.getWidth()-3),map,"2","8");
+        Paddle leftPaddle = new Paddle(new Position(map.getHeight()-2, map.getWidth()-2),
+                                       new Position(map.getHeight()-6,map.getWidth()-2),map,"2","8");
 
 
         GameLevel gameLevel = new GameLevel(map, ball, rightPaddle, leftPaddle);
