@@ -1,4 +1,4 @@
-package com.PongPingJava;
+package com.PongPingJava.GameUtils;
 
 public class Position {
     private int x;
@@ -12,6 +12,9 @@ public class Position {
     public Position(Position position) {
         setX(position.x);
         setY(position.y);
+    }
+
+    public Position() {
     }
 
     public int getX() {
@@ -34,34 +37,47 @@ public class Position {
         return this.x == pos.getX() && this.y == pos.getY();
     }
 
+    public boolean equals(int y, int x) {
+        return this.x == x && this.y == y;
+    }
+
+    public void equalize(Position position) {
+        this.y = position.getY();
+        this.x = position.getX();
+    }
+
     public Position left() {
-        return new Position(y, x-1);
+        return new Position(y, x - 1);
     }
 
     public Position right() {
-        return new Position(y, x+1);
+        return new Position(y, x + 1);
     }
 
-    public Position up() { return new Position(y - 1, x); }
+    public Position up() {
+        return new Position(y - 1, x);
+    }
 
-    public Position down() { return new Position(y+1, x  ); }
-
+    public Position down() {
+        return new Position(y + 1, x);
+    }
 
 
     public Position upRight() {
-        return new Position(y-1, x+1);
+        return new Position(y - 1, x + 1);
     }
 
     public Position upLeft() {
-        return new Position(y-1, x-1);
+        return new Position(y - 1, x - 1);
     }
 
     public Position downRight() {
-        return new Position(y+1, x+1);
+        return new Position(y + 1, x + 1);
     }
 
-    public Position downLeft() { return new Position(y+1, x-1); }
-
+    public Position downLeft() {
+        return new Position(y + 1, x - 1);
+    }
 
 
     public Position addX(int dx) {
@@ -71,6 +87,16 @@ public class Position {
 
     public Position addY(int dy) {
         this.y += dy;
+        return this;
+    }
+
+    public Position subtractX(int dx) {
+        this.x -= dx;
+        return this;
+    }
+
+    public Position subtractY(int dy) {
+        this.y -= dy;
         return this;
     }
 

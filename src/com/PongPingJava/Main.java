@@ -1,41 +1,51 @@
 package com.PongPingJava;
 
+import com.PongPingJava.GameObject.Ball;
+import com.PongPingJava.GameObject.Paddle;
+import com.PongPingJava.GameRules.BallGameRules;
+import com.PongPingJava.GameRules.PaddleGameRules;
+import com.PongPingJava.GameUtils.*;
+import com.PongPingJava.Memento.Game;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        GameMap map = new GameMap(40,15);
-        Position middleOfMap = new Position(5,5);
 
-        Ball ball = new Ball(middleOfMap,MovingDirection.UpLeft,map);
+        GameMap map = new GameMap(40, 15);
+        UserInput input = new UserInput();
 
-        Paddle rightPaddle = new Paddle(new Position(map.getHeight()-2, 1),
-                                        new Position(map.getHeight()-6,1),map,"1","7");//simplify, reduce need of constants, GameMap can't go here
+        BallGameRules ballRules = BallGameRules.getInstance();
+        ballRules.setGameMap(map);
 
-        Paddle leftPaddle = new Paddle(new Position(map.getHeight()-2, map.getWidth()-2),
-                                       new Position(map.getHeight()-6,map.getWidth()-2),map,"2","8");
+        PaddleGameRules paddleRules = PaddleGameRules.getInstance();
+        paddleRules.setGameMap(map);
 
 
-        GameLevel gameLevel = new GameLevel(map, ball, rightPaddle, leftPaddle);
+        Ball ball = new Ball(map.getMiddleOfMap(), MovingDirection.DownLeft, ballRules);
+
+        List<Paddle> paddles = new ArrayList<>();
+        paddles.add(new Paddle(map.getMiddleOfYAxisNearLeftBorder(), "7", "1", paddleRules));
+        paddles.add(new Paddle(map.getgetMiddleOfYAxisNearRightBorder(), "8", "2", paddleRules));
+
+        GameLevel gameLevel = new GameLevel(map, ball, paddles, paddleRules, ballRules);
 
         GameRenderer renderer = new GameRenderer();
 
-        UserInput input = new UserInput();
+        Game game = new Game(gameLevel, renderer);
 
-        renderer.renderMap(gameLevel);
+        game.save();
 
-        while (true)
-        {
-            ball.move(gameLevel);
-            renderer.renderMap(gameLevel);
-            Thread.sleep(300);
+        do {
+            game.restore();
 
-            String key = input.getUserInput();
+            while (!game.isGameOver()) {
+                game.play();
+            }
+        } while (input.userWantsToPlayAgain());
 
-            if (key.equals(rightPaddle.getControlDown()) || key.equals(rightPaddle.getControlUp()))
-                rightPaddle.move(input.makeMovingDirection("7","1",key));
 
-            else if (key.equals(leftPaddle.getControlDown()) || key.equals(leftPaddle.getControlUp()))
-                leftPaddle.move(input.makeMovingDirection("8","2", key));
-        }
     }
 }
